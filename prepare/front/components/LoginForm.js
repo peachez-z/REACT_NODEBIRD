@@ -2,8 +2,11 @@ import React, { useCallback, useState} from "react";
 import { Form, Input, Button } from 'antd';
 import Link from 'next/link';
 import styled from 'styled-components';
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import useInput from '../components/hooks/useInput'
+import { useDispatch } from "react-redux";
+import { loginAction } from "../reducers";
+
 
 // 계속 리렌더링 되기 때문에 이렇게 따로 빼는게 좋음 / 성능 문제
 const ButtonWrapper = styled.div`
@@ -14,7 +17,8 @@ const ButtonWrapper = styled.div`
 const FormWrapper = styled(Form)`
 padding:10px`
 
-const LoginForm = ({setIsLoggedIn}) => {
+const LoginForm = () => {
+  const dispatch = useDispatch()
   // 커스텀 훅으로 중복 제거
   const [id, onChangeId] = useInput('');
   const [password, onChangepassword] = useInput('');
@@ -23,7 +27,7 @@ const LoginForm = ({setIsLoggedIn}) => {
     console.log({
       id, password,
     });
-    setIsLoggedIn(true)
+    dispatch(loginAction({ id, password }));
   }, [id, password]);
 
   return (
@@ -50,8 +54,5 @@ const LoginForm = ({setIsLoggedIn}) => {
   );
 }
 
-LoginForm.propTypes ={
-  setIsLoggedIn: PropTypes.func.isRequired,
-}
 
 export default LoginForm;

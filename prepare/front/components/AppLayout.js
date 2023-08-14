@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'
 import Link from 'next/link';
 import {Menu, Input, Row, Col} from 'antd'
@@ -6,6 +6,7 @@ import "antd/dist/antd.css"
 import UserProfile from '../components/LoginForm'
 import LoginForm   from "../components/LoginForm"
 import styled from 'styled-components'
+import {useSelector} from 'react-redux'
 
 
 const SearchInput = styled(Input.Search)`
@@ -13,15 +14,9 @@ const SearchInput = styled(Input.Search)`
 `
 
 const AppLayout = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    console.log(isLoggedIn)
-  }, [isLoggedIn])
-  useEffect(() => {
-    if (isLoggedIn) {
-      console.log('일단 바뀜')
-    }
-  }, [isLoggedIn])
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
+
   return (
     <div>
       <Menu mode="horizontal">
@@ -42,7 +37,7 @@ const AppLayout = ({ children }) => {
        <Row gutter={8}>
         {/* 25%  xs : 모바일 md : 모니터 */}
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile setIsLoggedIn={setIsLoggedIn} /> : <LoginForm setIsLoggedIn={setIsLoggedIn} />}
+          {isLoggedIn ? <UserProfile /> : <LoginForm />}
         </Col>
         {/* 50% */}
         <Col xs={24} md={12}>
